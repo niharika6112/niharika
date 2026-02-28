@@ -1,0 +1,1167 @@
+/* ══════════════════════════════════════════════
+   BirthdayApp.css  —  White Romantic Theme
+   Suraj & Niharika 🖤
+══════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── TOKENS ── */
+:root {
+  --white:       #ffffff;
+  --off-white:   #fdf8f5;
+  --parchment:   #f7f0e8;
+  --rose:        #c9856b;
+  --rose-light:  #e8a898;
+  --rose-deep:   #8b4a36;
+  --rose-blush:  #f5ddd5;
+  --gold:        #c8975a;
+  --ink:         #2a1a14;
+  --ink-soft:    #4a2e24;
+  --ink-muted:   #8a6a5e;
+  --border:      rgba(201,133,107,.25);
+  --shadow-rose: rgba(201,133,107,.18);
+}
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+body::after {
+  content: '';
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--rose);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  top: var(--cy, -20px);
+  left: var(--cx, -20px);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: multiply;
+}
+
+/* ── CANVAS (petals only) ── */
+.petal-canvas {
+  position: fixed; top:0; left:0;
+  width:100%; height:100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── APP WRAPPER ── */
+.app {
+  position: relative;
+  min-height: 100vh;
+  background: var(--off-white);
+  /* Subtle linen texture */
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(201,133,107,.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(200,151,90,.05) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23fdf8f5'/%3E%3Cpath d='M0 2h4M2 0v4' stroke='%23c9856b' stroke-opacity='.04' stroke-width='.5'/%3E%3C/svg%3E");
+}
+
+section { position:relative; z-index:2; }
+
+/* ── FLOATING HEARTS ── */
+.floating-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99;
+  animation: floatHeart linear forwards;
+  line-height: 1;
+}
+@keyframes floatHeart {
+  0%   { transform: translateY(0) scale(1) rotate(-5deg);  opacity: 1; }
+  100% { transform: translateY(-260px) scale(.3) rotate(15deg); opacity: 0; }
+}
+
+/* ── MUSIC BUTTON ── */
+.music-btn-wrap {
+  position: fixed; bottom:28px; right:28px; z-index:9999;
+  display: flex; flex-direction:column; align-items:center; gap:8px;
+}
+.music-label {
+  font-size: 10px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--rose); background: rgba(255,255,255,.9);
+  padding: 5px 12px; border:1px solid var(--border); border-radius:20px;
+  box-shadow: 0 2px 12px var(--shadow-rose);
+  white-space:nowrap;
+}
+.music-btn {
+  width:54px; height:54px; border-radius:50%;
+  background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+  border: 2px solid rgba(255,255,255,.6);
+  color: white; font-size:22px;
+  display:flex; align-items:center; justify-content:center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px var(--shadow-rose), 0 0 0 4px rgba(201,133,107,.1);
+  animation: musicPulse 2.5s ease infinite;
+  transition: transform .2s;
+}
+.music-btn:hover { transform: scale(1.1); }
+.music-btn.playing { animation: musicPulsePlaying 1.2s ease infinite; }
+
+@keyframes musicPulse {
+  0%,100%{ box-shadow:0 4px 20px var(--shadow-rose),0 0 0 4px rgba(201,133,107,.1); }
+  50%    { box-shadow:0 6px 30px rgba(201,133,107,.45),0 0 0 8px rgba(201,133,107,.08); }
+}
+@keyframes musicPulsePlaying {
+  0%,100%{ transform:scale(1); box-shadow:0 4px 20px var(--shadow-rose); }
+  50%    { transform:scale(1.06); box-shadow:0 6px 32px rgba(201,133,107,.55); }
+}
+
+/* ── DIVIDER ── */
+.divider-orn {
+  display:flex; align-items:center; justify-content:center;
+  gap:20px; padding:12px 0;
+  color: var(--rose); font-size:16px; z-index:2; position:relative;
+}
+.divider-orn::before,.divider-orn::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  max-width:200px;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(30px); transition:opacity .9s ease,transform .9s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── ANIMATIONS ── */
+.animate-rise { opacity:0; animation:riseIn 1s ease forwards; }
+.delay-1{animation-delay:.2s} .delay-2{animation-delay:.5s}
+.delay-3{animation-delay:.8s} .delay-4{animation-delay:1.1s}
+.delay-5{animation-delay:1.4s} .delay-6{animation-delay:2s}
+
+@keyframes riseIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shimmerGrad {
+  0%  {background-position:0% center}
+  50% {background-position:100% center}
+  100%{background-position:0% center}
+}
+@keyframes nameGlow {
+  0%,100%{ text-shadow: 0 2px 12px rgba(201,133,107,.2); }
+  50%    { text-shadow: 0 4px 28px rgba(201,133,107,.5),0 2px 8px rgba(201,133,107,.3); }
+}
+@keyframes scrollPulse {
+  0%,100%{ transform:scaleY(1); opacity:.5; }
+  50%    { transform:scaleY(1.2); opacity:1; }
+}
+@keyframes heartbeat {
+  0%,100%{ transform:scale(1) rotate(-2deg); }
+  14%    { transform:scale(1.15) rotate(-2deg); }
+  42%    { transform:scale(1.08) rotate(-2deg); }
+}
+@keyframes cakeBounce {
+  0%,100%{ transform:translateY(0) rotate(-3deg); }
+  50%    { transform:translateY(-14px) rotate(3deg); }
+}
+@keyframes glowPulse {
+  0%,100%{ opacity:.5; filter:blur(2px); }
+  50%    { opacity:.85; filter:blur(3px); }
+}
+
+/* ══════════════════════════
+   HERO
+══════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:60px 24px 100px;
+  position:relative;
+  /* Soft radial glow in white */
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(245,221,213,.55) 0%, transparent 70%);
+}
+
+.hero-tag {
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(10px,2vw,14px); letter-spacing:8px; color:var(--rose);
+  text-transform:uppercase;
+}
+.hero-divider { display:flex; align-items:center; gap:18px; margin:18px 0; }
+.hdline { width:70px; height:1px; background:linear-gradient(90deg,transparent,var(--rose),transparent); }
+.hdline-heart { color:var(--rose); font-size:18px; }
+
+.hero-title {
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(38px,9vw,100px); font-weight:700; line-height:1.05;
+  background: linear-gradient(140deg, var(--ink) 0%, var(--rose-deep) 35%, var(--rose) 65%, var(--gold) 90%);
+  background-size:200% auto;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  animation: riseIn 1.3s ease .8s both, shimmerGrad 6s linear 2s infinite;
+  filter: drop-shadow(0 2px 12px rgba(201,133,107,.2));
+}
+.hero-name {
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(28px,6vw,62px); color:var(--rose-deep); letter-spacing:3px;
+  animation: riseIn 1s ease 1.1s both, nameGlow 3s ease 2s infinite;
+  margin-top:8px;
+}
+.hero-quote {
+  max-width:600px; font-size:clamp(15px,2vw,19px); line-height:2.1;
+  font-style:italic; color:var(--ink-muted); margin-top:28px;
+}
+.hero-scroll {
+  position:absolute; bottom:32px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--rose); font-size:10px; letter-spacing:4px; text-transform:uppercase;
+}
+.scroll-bar {
+  width:1px; height:55px;
+  background:linear-gradient(to bottom,var(--rose),transparent);
+  animation:scrollPulse 2s ease infinite;
+}
+
+/* ══════════════════════════
+   AAP MERE SECTION
+══════════════════════════ */
+.tumera-section {
+  padding:90px 24px;
+  display:flex; flex-direction:column; align-items:center;
+  background: linear-gradient(180deg, var(--off-white) 0%, var(--parchment) 50%, var(--off-white) 100%);
+}
+.sec-eyebrow {
+  font-size:11px; letter-spacing:6px; text-transform:uppercase;
+  color:var(--rose); margin-bottom:14px;
+}
+.sec-title {
+  font-family:'Cinzel Decorative',serif; font-size:clamp(22px,4vw,42px);
+  background:linear-gradient(135deg,var(--ink),var(--rose-deep));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  text-align:center;
+}
+.sec-orn { display:flex; align-items:center; gap:16px; margin:18px 0 50px; color:var(--rose); font-size:14px; }
+.sec-orn-line { width:55px; height:1px; background:linear-gradient(90deg,transparent,var(--rose),transparent); }
+
+.cards-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px; max-width:1000px; width:100%;
+}
+
+.role-card {
+  background: rgba(255,255,255,.85);
+  border:1px solid var(--border); border-radius:12px;
+  padding:36px 28px; text-align:center; position:relative; overflow:hidden;
+  opacity:0; transform:translateY(20px);
+  transition: opacity .6s ease, transform .6s ease, box-shadow .3s, border-color .3s;
+  box-shadow: 0 2px 16px rgba(201,133,107,.08);
+  backdrop-filter: blur(4px);
+}
+.role-card.visible { opacity:1; transform:translateY(0); }
+.role-card:hover {
+  transform:translateY(-8px) scale(1.02);
+  border-color:var(--rose);
+  box-shadow: 0 16px 50px rgba(201,133,107,.22), 0 4px 16px rgba(201,133,107,.12);
+}
+.role-emoji { font-size:42px; margin-bottom:16px; display:block; transition:transform .4s; }
+.role-card:hover .role-emoji { transform:scale(1.2) rotate(-5deg); }
+.role-label { font-family:'Cinzel Decorative',serif; font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--rose); margin-bottom:8px; }
+.role-title { font-family:'Dancing Script',cursive; font-size:28px; color:var(--ink); margin-bottom:10px; }
+.role-desc { font-size:14px; line-height:1.85; font-style:italic; color:var(--ink-muted); }
+
+.role-hover-quote {
+  position:absolute; inset:0; border-radius:12px;
+  background:linear-gradient(135deg,rgba(245,221,213,.97) 0%,rgba(255,255,255,.98) 60%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:24px; opacity:0; transform:translateY(12px);
+  transition:opacity .35s,transform .35s; gap:12px; text-align:center;
+}
+.role-hover-quote.show { opacity:1; transform:translateY(0); }
+.rhq-heart { font-size:26px; animation:heartbeat 1.5s ease infinite; }
+.rhq-text { font-family:'Playfair Display',serif; font-style:italic; font-size:15px; line-height:1.8; color:var(--ink-soft); }
+.rhq-tag { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--rose); }
+
+/* ══════════════════════════
+   BANNER - IMPROVED RESPONSIVE HEIGHT
+══════════════════════════ */
+.banner-section { padding:70px 24px; display:flex; justify-content:center; }
+.banner-wrap { position:relative; width:min(1000px,100vw); }
+.banner-glow {
+  position:absolute; inset:-3px; border-radius:14px;
+  background:linear-gradient(135deg,var(--rose),var(--gold),var(--rose-light),var(--rose));
+  animation:glowPulse 4s linear infinite; filter:blur(2px);
+}
+.banner-inner {
+  position:relative; 
+  aspect-ratio: 16/9; /* Changed from 21/9 to 16/9 for taller banner */
+  min-height: 400px; /* Minimum height for all screens */
+  max-height: 600px; /* Maximum height on large screens */
+  width: 100%;
+  background:var(--parchment); border-radius:12px; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; z-index:1; border:1px solid rgba(255,255,255,.6);
+  box-shadow: 0 8px 40px rgba(201,133,107,.15);
+}
+.banner-ph { 
+  display:flex; flex-direction:column; align-items:center; gap:14px; 
+  color:var(--rose-light); pointer-events:none; 
+  padding: 20px; /* Added padding for mobile */
+  text-align: center;
+}
+.bph-icon { font-size:64px; animation:heartbeat 2.2s ease infinite; }
+.bph-label { font-family:'Cinzel Decorative',serif; font-size:12px; letter-spacing:4px; color:var(--rose); }
+.bph-sub { font-size:11px; color:var(--ink-muted); }
+.banner-img-el { 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; /* Ensures image covers the area without distortion */
+  display:block; 
+}
+.banner-caption {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:40px 24px 18px;
+  background:linear-gradient(to top,rgba(255,248,244,.96) 0%,transparent 100%);
+  text-align:center; font-family:'Cinzel Decorative',serif;
+  font-size:12px; letter-spacing:5px; color:var(--rose);
+}
+.banner-change-hint {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--rose-deep);
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+  text-transform: uppercase;
+  z-index: 3;
+}
+.co { position:absolute; width:28px; height:28px; border-color:var(--rose); border-style:solid; opacity:.6; z-index:2; }
+.co.tl{top:10px;left:10px;border-width:2px 0 0 2px}
+.co.tr{top:10px;right:10px;border-width:2px 2px 0 0}
+.co.bl{bottom:10px;left:10px;border-width:0 0 2px 2px}
+.co.br{bottom:10px;right:10px;border-width:0 2px 2px 0}
+
+/* ══════════════════════════
+   GALLERY - IMPROVED RESPONSIVE GRID
+══════════════════════════ */
+.gallery-section { padding:80px 24px; max-width:1200px; margin:0 auto; }
+.sec-header { text-align:center; margin-bottom:50px; }
+.gallery-hint { font-size:13px; font-style:italic; color:var(--ink-muted); margin-top:-14px; }
+
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.gi { 
+  position:relative; 
+  overflow:hidden; 
+  border-radius:10px; 
+  border:1px solid var(--border); 
+  cursor:pointer; 
+  box-shadow:0 2px 16px rgba(201,133,107,.08);
+  aspect-ratio: 1/1; /* Makes all gallery items square by default */
+  width: 100%;
+}
+
+.gi-tall { 
+  grid-row: span 2; 
+  aspect-ratio: 1/2; /* Tall images get different aspect ratio */
+}
+
+.gi-bg { 
+  width:100%; 
+  height:100%; 
+  position:relative; 
+  overflow:hidden; 
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94); 
+}
+.gi-bg.zoomed { transform:scale(1.06); }
+.gi-ph {
+  width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+  background:linear-gradient(135deg,var(--rose-blush),var(--parchment));
+  color:var(--rose); font-size:13px; letter-spacing:2px;
+  padding: 15px; /* Added padding */
+  text-align: center;
+}
+.ph-icon { font-size:30px; }
+.gi-img { 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; /* Ensures images cover the area properly */
+  display:block; 
+}
+.gi-overlay {
+  position:absolute; inset:0; border-radius:10px;
+  background:linear-gradient(135deg,rgba(245,221,213,.96) 0%,rgba(255,252,250,.98) 65%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:20px; text-align:center;
+  opacity:0; transform:translateY(14px); transition:opacity .38s,transform .38s; gap:10px;
+}
+.gi-overlay.show { opacity:1; transform:translateY(0); }
+.ov-heart { font-size:26px; animation:heartbeat 1.4s ease infinite; }
+.ov-quote { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(13px,1.6vw,16px); color:var(--ink-soft); line-height:1.8; }
+.ov-tag { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--rose); }
+
+/* ══════════════════════════
+   LOVE LETTER
+══════════════════════════ */
+.letter-section { padding:80px 24px; display:flex; justify-content:center; }
+.letter-card {
+  max-width:700px; width:100%;
+  background:rgba(255,255,255,.9);
+  border:1px solid var(--border); padding:clamp(36px,6vw,64px);
+  border-radius:12px; position:relative;
+  box-shadow: 0 8px 40px rgba(201,133,107,.12), 0 2px 12px rgba(201,133,107,.06);
+}
+.letter-card::before {
+  content:'✦'; position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  background:var(--off-white); padding:0 16px; color:var(--rose); font-size:20px;
+}
+.letter-from { font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--rose); margin-bottom:28px; text-align:center; }
+.letter-body { font-size:clamp(15px,1.9vw,18px); line-height:2.1; font-style:italic; color:var(--ink-soft); }
+.letter-body .hl { color:var(--rose-deep); font-style:normal; font-weight:600; }
+.letter-sign { margin-top:36px; text-align:right; font-family:'Dancing Script',cursive; font-size:24px; color:var(--rose); }
+
+/* ══════════════════════════
+   WISHES
+══════════════════════════ */
+.wishes-section {
+  padding:80px 24px; text-align:center;
+  background:linear-gradient(180deg,var(--off-white) 0%,var(--rose-blush) 50%,var(--off-white) 100%);
+}
+.wishes-title {
+  background:linear-gradient(135deg,var(--ink),var(--rose-deep)) !important;
+  -webkit-background-clip:text !important; -webkit-text-fill-color:transparent !important; background-clip:text !important;
+}
+.cake { font-size:80px; animation:cakeBounce 2s ease infinite; display:inline-block; margin:28px 0; }
+.wish-tags { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:720px; margin:0 auto; }
+.wtag {
+  padding:10px 22px; border:1px solid var(--border);
+  font-size:12px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--rose-deep); border-radius:24px;
+  background:rgba(255,255,255,.7); transition:all .3s; cursor:default;
+  box-shadow:0 2px 8px rgba(201,133,107,.06);
+}
+.wtag:hover {
+  background:var(--rose); border-color:var(--rose); color:white;
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(201,133,107,.28);
+}
+
+/* ══════════════════════════
+   FOOTER
+══════════════════════════ */
+.footer {
+  padding:60px 24px; text-align:center;
+  border-top:1px solid var(--border);
+  background:var(--parchment);
+}
+.footer-hearts { font-size:22px; margin-bottom:14px; animation:heartbeat 2s ease infinite; display:block; }
+.footer-txt { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--ink-muted); }
+
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE MEDIA QUERIES - UPDATED
+══════════════════════════════════════════════ */
+
+/* Large Tablets & Small Laptops (1024px and below) */
+@media (max-width: 1024px) {
+  .cards-grid {
+    max-width: 900px;
+    gap: 18px;
+  }
+  
+  .role-card {
+    padding: 30px 20px;
+  }
+  
+  .role-title {
+    font-size: 24px;
+  }
+  
+  .hero-quote {
+    max-width: 80%;
+  }
+  
+  .gallery-grid {
+    gap: 12px;
+  }
+}
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  /* Hero Section */
+  .hero {
+    padding: 40px 16px 80px;
+  }
+  
+  .hero-tag {
+    font-size: 10px;
+    letter-spacing: 6px;
+  }
+  
+  .hero-title {
+    font-size: clamp(32px, 8vw, 60px);
+  }
+  
+  .hero-name {
+    font-size: clamp(24px, 5vw, 42px);
+  }
+  
+  .hero-quote {
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 90%;
+  }
+  
+  .hero-quote br {
+    display: none;
+  }
+  
+  .hero-scroll {
+    bottom: 20px;
+  }
+  
+  .scroll-bar {
+    height: 40px;
+  }
+  
+  /* Aap Mere Section */
+  .tumera-section {
+    padding: 60px 20px;
+  }
+  
+  .sec-title {
+    font-size: clamp(20px, 5vw, 32px);
+  }
+  
+  .cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  
+  .role-card {
+    padding: 28px 18px;
+  }
+  
+  .role-emoji {
+    font-size: 36px;
+  }
+  
+  .role-title {
+    font-size: 22px;
+  }
+  
+  .role-desc {
+    font-size: 13px;
+  }
+  
+  .rhq-text {
+    font-size: 13px;
+    padding: 0 8px;
+  }
+  
+  /* Banner Section - Tablet */
+  .banner-section {
+    padding: 50px 20px;
+  }
+  
+  .banner-wrap {
+    width: min(1000px, 95vw);
+  }
+  
+  .banner-inner {
+    min-height: 350px;
+    max-height: 450px;
+  }
+  
+  .bph-icon {
+    font-size: 48px;
+  }
+  
+  .bph-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+  }
+  
+  .bph-sub {
+    font-size: 10px;
+    text-align: center;
+    padding: 0 16px;
+  }
+  
+  .banner-caption {
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 30px 16px 14px;
+  }
+  
+  .banner-change-hint {
+    bottom: 60px;
+    font-size: 10px;
+  }
+  
+  .co {
+    width: 22px;
+    height: 22px;
+  }
+  
+  /* Gallery Section - Tablet (2 columns) */
+  .gallery-section {
+    padding: 60px 20px;
+  }
+  
+  .gallery-hint {
+    font-size: 12px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .gi-tall {
+    grid-row: span 2;
+    grid-column: auto;
+    aspect-ratio: 1/1.5;
+  }
+  
+  /* Love Letter Section */
+  .letter-section {
+    padding: 60px 20px;
+  }
+  
+  .letter-card {
+    padding: 40px 30px;
+  }
+  
+  .letter-body {
+    font-size: 15px;
+    line-height: 1.9;
+  }
+  
+  .letter-sign {
+    font-size: 22px;
+  }
+  
+  /* Wishes Section */
+  .wishes-section {
+    padding: 60px 20px;
+  }
+  
+  .cake {
+    font-size: 60px;
+    margin: 20px 0;
+  }
+  
+  .wish-tags {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  
+  .wtag {
+    padding: 8px 18px;
+    font-size: 11px;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 40px 20px;
+  }
+  
+  .footer-hearts {
+    font-size: 20px;
+  }
+  
+  .footer-txt {
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+  
+  /* Music Button */
+  .music-btn-wrap {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .music-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .music-label {
+    font-size: 9px;
+    padding: 4px 10px;
+  }
+}
+
+/* Mobile Phones (480px and below) - 1 COLUMN GALLERY */
+@media (max-width: 480px) {
+  /* Hero Section */
+  .hero {
+    padding: 30px 12px 60px;
+  }
+  
+  .hero-tag {
+    font-size: 8px;
+    letter-spacing: 4px;
+  }
+  
+  .hero-divider {
+    gap: 12px;
+    margin: 12px 0;
+  }
+  
+  .hdline {
+    width: 40px;
+  }
+  
+  .hdline-heart {
+    font-size: 14px;
+  }
+  
+  .hero-title {
+    font-size: clamp(28px, 7vw, 42px);
+  }
+  
+  .hero-name {
+    font-size: clamp(20px, 4.5vw, 32px);
+  }
+  
+  .hero-quote {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 20px;
+  }
+  
+  .hero-scroll {
+    bottom: 16px;
+  }
+  
+  .hero-scroll span {
+    font-size: 8px;
+    letter-spacing: 3px;
+  }
+  
+  .scroll-bar {
+    height: 35px;
+  }
+  
+  /* Aap Mere Section */
+  .tumera-section {
+    padding: 40px 16px;
+  }
+  
+  .sec-eyebrow {
+    font-size: 9px;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .sec-title {
+    font-size: clamp(18px, 6vw, 26px);
+  }
+  
+  .sec-orn {
+    gap: 12px;
+    margin: 14px 0 30px;
+  }
+  
+  .sec-orn-line {
+    width: 35px;
+  }
+  
+  .sec-orn span {
+    font-size: 12px;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .role-card {
+    padding: 24px 16px;
+  }
+  
+  .role-emoji {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  
+  .role-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+  }
+  
+  .role-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .role-desc {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  
+  .role-hover-quote {
+    padding: 16px;
+  }
+  
+  .rhq-heart {
+    font-size: 22px;
+  }
+  
+  .rhq-text {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  
+  .rhq-tag {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+  
+  /* Banner Section - Mobile */
+  .banner-section {
+    padding: 40px 16px;
+  }
+  
+  .banner-inner {
+    min-height: 800px;
+    max-height: 800px;
+    aspect-ratio: 3/4; /* Taller aspect ratio for mobile */
+  }
+  
+  .bph-icon {
+    font-size: 40px;
+  }
+  
+  .bph-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+  
+  .bph-sub {
+    font-size: 9px;
+    padding: 0 12px;
+  }
+  
+  .banner-caption {
+    font-size: 10px;
+    letter-spacing: 3px;
+    padding: 25px 12px 12px;
+  }
+  
+  .banner-change-hint {
+    bottom: 50px;
+    font-size: 9px;
+  }
+  
+  .co {
+    width: 18px;
+    height: 18px;
+  }
+  
+  /* Gallery Section - Mobile (1 column) */
+  .gallery-section {
+    padding: 40px 16px;
+  }
+  
+  .sec-header {
+    margin-bottom: 30px;
+  }
+  
+  .gallery-hint {
+    font-size: 11px;
+    margin-top: -10px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+    gap: 16px;
+  }
+  
+  .gi {
+    aspect-ratio: 3/4; /* Slightly landscape for better viewing on mobile */
+    width: 100%;
+    height: 550px;
+  }
+  
+  .gi-tall {
+    grid-row: span 1; /* Remove tall spanning on mobile */
+    aspect-ratio: 3/4;
+  }
+  
+  .gi-ph {
+    gap: 6px;
+    padding: 20px;
+  }
+  
+  .ph-icon {
+    font-size: 32px;
+  }
+  
+  .gi-ph div {
+    font-size: 12px;
+  }
+  
+  .ov-heart {
+    font-size: 26px;
+  }
+  
+  .ov-quote {
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 0 15px;
+  }
+  
+  .ov-tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+  
+  /* Love Letter Section */
+  .letter-section {
+    padding: 40px 16px;
+  }
+  
+  .letter-card {
+    padding: 30px 20px;
+  }
+  
+  .letter-card::before {
+    font-size: 16px;
+    top: -12px;
+  }
+  
+  .letter-from {
+    font-size: 10px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .letter-body {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  
+  .letter-sign {
+    font-size: 20px;
+    margin-top: 24px;
+  }
+  
+  /* Wishes Section */
+  .wishes-section {
+    padding: 40px 16px;
+  }
+  
+  .cake {
+    font-size: 50px;
+    margin: 16px 0;
+  }
+  
+  .wish-tags {
+    gap: 8px;
+    padding: 0 12px;
+  }
+  
+  .wtag {
+    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 30px 16px;
+  }
+  
+  .footer-hearts {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-txt {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+  
+  /* Music Button */
+  .music-btn-wrap {
+    bottom: 16px;
+    right: 16px;
+    gap: 6px;
+  }
+  
+  .music-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+  
+  .music-label {
+    font-size: 8px;
+    padding: 3px 8px;
+    letter-spacing: 1px;
+  }
+  
+  /* Divider Ornaments */
+  .divider-orn {
+    padding: 8px 0;
+    font-size: 14px;
+  }
+  
+  .divider-orn::before,
+  .divider-orn::after {
+    max-width: 100px;
+  }
+}
+
+/* Small Mobile Phones (360px and below) */
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+  
+  .hero-name {
+    font-size: clamp(18px, 4vw, 26px);
+  }
+  
+  .hero-quote {
+    font-size: 12px;
+  }
+  
+  .role-card {
+    padding: 20px 12px;
+  }
+  
+  .role-emoji {
+    font-size: 28px;
+  }
+  
+  .role-title {
+    font-size: 18px;
+  }
+  
+  .role-desc {
+    font-size: 11px;
+  }
+  
+  .rhq-text {
+    font-size: 11px;
+  }
+  
+  .banner-inner {
+    min-height: 220px;
+  }
+  
+  .gi {
+    aspect-ratio: 4/3;
+  }
+  
+  .letter-body {
+    font-size: 13px;
+  }
+  
+  .letter-sign {
+    font-size: 18px;
+  }
+  
+  .wtag {
+    padding: 5px 10px;
+    font-size: 9px;
+  }
+  
+  .bph-icon {
+    font-size: 36px;
+  }
+  
+  .banner-caption {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+}
+
+/* Landscape Mode for Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: 120vh;
+    padding: 20px 12px 40px;
+  }
+  
+  .hero-scroll {
+    bottom: 10px;
+  }
+  
+  .scroll-bar {
+    height: 25px;
+  }
+  
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .banner-inner {
+    min-height: 250px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablet Landscape (1024px and below, orientation landscape) */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .hero {
+    min-height: 120vh;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Ensure text doesn't overflow on very small devices */
+@media (max-width: 280px) {
+  .hero-tag {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+  
+  .hero-title {
+    font-size: 22px;
+  }
+  
+  .hero-name {
+    font-size: 18px;
+  }
+  
+  .hero-quote {
+    font-size: 11px;
+  }
+  
+  .role-title {
+    font-size: 16px;
+  }
+  
+  .role-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+  
+  .wtag {
+    padding: 4px 8px;
+    font-size: 8px;
+  }
+  
+  .footer-txt {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+}
